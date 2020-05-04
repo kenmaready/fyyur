@@ -1,0 +1,31 @@
+Work on Models:
+
+Venue - need to add/change:
+genres - MAYBE just a cross-ref table to new Genre Table - or as a list of strings? varchar(120)?  This is how genres is implemented on Artis
+website - varchar(?)
+seeking_talent - Boolean
+seeking_description - varchar
+past_shows - list of objects (from Show model?) with { artist_id -> Artist.id, artist_name -> varchar, artist_image_link -> varchar, start_time -> datetime object - create show Model?  Linke with Artists and Venues and add Time?
+upcoming_shows: list of objects (similar to past_shows?)
+past_shows_count: int -> get count from Shows with this venue (with time in the past)
+upcoming_shows_count: int -> get count from Shows with this venue (with time in the future)
+
+
+Artist - need to add/change:
+genres - it already has a varchar, shoudl this be a list of varchars? - ACTUALLY should prob be an association table with a genre db
+website - varchar(?)
+seeking_venue - Boolean
+seeking_description - varchar - can be null
+past_shows - list of objects with: { venue_id: -> int, get from shows? Venue?, venue_name: varchar get from Join with shows and Venues?, venue_image_link: varchar, same? start_time, get from Shows?
+upcoming shows - same as past shows by with time in future
+past_shows_count - get count of shows with ArtistId in Shows with time in past
+upcoming_shows_count - get count of shows with ArtistId in Shows with time in future
+
+
+New Genre table? with Genre and ID to use in a many-to-many association table?
+
+New Show table? use Artist_ID and Venue_ID and add Date?
+    Artist_Id - fkey, Artist.id
+    Venue_Id = fkey, Venue.id    
+    Date - datetime
+    

@@ -8,6 +8,12 @@ DEBUG = True
 
 # Connect to the database
 
-
 # TODO IMPLEMENT DATABASE URL
-SQLALCHEMY_DATABASE_URI = '<Put your local database url>'
+dialect = "postgres"
+username = 'udacity'
+password = 'udacity'
+dbname = 'fyyurdb'
+port = 5432
+
+SQLALCHEMY_DATABASE_URI = "{dialect}://{username}:{password}@localhost:{port}/{dbname}".format(dialect=dialect, username=username, password=password, port=port, dbname=dbname)
+
