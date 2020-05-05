@@ -95,14 +95,26 @@ venue_data = [
 ]
 
 genre_data = [
-    { "name": "Classical"},
-    { "name": "Folk"},
-    { "name": "Hip-Hop"},
-    { "name": "Jazz"},
-    { "name": "R&B"},
-    { "name": "Reggae"},
-    { "name": "Rock n Roll"},
-    { "name": "Swing"}
+    { "name": "Alternative" },
+    { "name": "Blues" },
+    { "name": "Classical" },
+    { "name": "Country" },
+    { "name": "Electronic" },
+    { "name": "Folk" },
+    { "name": "Funk" },
+    { "name": "Heavy Metal" },
+    { "name": "Hip-Hop" },
+    { "name": "Instrumental" },
+    { "name": "Jazz" },
+    { "name": "Musical Theatre" },
+    { "name": "Other" },
+    { "name": "Pop" },
+    { "name": "Punk" },
+    { "name": "R&B" },
+    { "name": "Reggae" },
+    { "name": "Rock n Roll" },
+    { "name": "Soul" },
+    { "name": "Swing" }
 ]
 
 show_data = [

@@ -40,7 +40,11 @@
 		<p class="not-seeking">
 			<i class="fas fa-moon"></i> Not currently seeking talent
 		</p>
-		{% endif %}
+    {% endif %}
+    <div>
+      <hr />
+      <button id="venue-delete-btn" class="btn btn-danger" data-id="{{ venue.id }}">Delete venue</button>
+    </div>
 	</div>
 	<div class="col-sm-6">
 		<img src="{{ venue.image_link }}" alt="Venue Image" />
@@ -74,6 +78,27 @@
 		{% endfor %}
 	</div>
 </section>
+
+<script>
+  document.getElementById('venue-delete-btn').onclick = (e) => {
+        const venueId = e.target.dataset.id;
+        fetch(`/venues/${venueId}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(json => {
+          if (!json.success) {
+            console.log('no success')
+          } else {
+            console.log('success');
+            window.location.href = '/venues'
+          }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+};
+</script>
 
 {% endblock %}
 
