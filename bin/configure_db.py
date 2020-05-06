@@ -9,7 +9,8 @@ PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 
-from app import db, Artist, Venue, Show, Genre, Artist_Genres, Venue_Genres
+from app import db
+from models import *
 
 # tool to clear all data from database while leaving schema intact:
 def clear_data(session):
@@ -94,28 +95,7 @@ venue_data = [
     }
 ]
 
-genre_data = [
-    { "name": "Alternative" },
-    { "name": "Blues" },
-    { "name": "Classical" },
-    { "name": "Country" },
-    { "name": "Electronic" },
-    { "name": "Folk" },
-    { "name": "Funk" },
-    { "name": "Heavy Metal" },
-    { "name": "Hip-Hop" },
-    { "name": "Instrumental" },
-    { "name": "Jazz" },
-    { "name": "Musical Theatre" },
-    { "name": "Other" },
-    { "name": "Pop" },
-    { "name": "Punk" },
-    { "name": "R&B" },
-    { "name": "Reggae" },
-    { "name": "Rock n Roll" },
-    { "name": "Soul" },
-    { "name": "Swing" }
-]
+genre_data = [{ "name": choice.name } for choice in Genre_Choices]
 
 show_data = [
     {
@@ -151,7 +131,7 @@ show_data = [
 ]
 
 artist_genre_data = [
-    { "artist_id": 1, "genre_name": "Rock n Roll"},
+    { "artist_id": 1, "genre_name": "Rock_n_Roll"},
     { "artist_id": 2, "genre_name": "Jazz"},
     { "artist_id": 3, "genre_name": "Jazz"},
     { "artist_id": 3, "genre_name": "Classical"}
@@ -160,13 +140,13 @@ artist_genre_data = [
 venue_genre_data = [
     { "venue_id": 1, "genre_name": "Jazz"},
     { "venue_id": 1, "genre_name": "Reggae"},
-    { "venue_id": 1, "genre_name": "Swing"},
+    { "venue_id": 1, "genre_name": "Musical_Theatre"},
     { "venue_id": 1, "genre_name": "Classical"},
     { "venue_id": 1, "genre_name": "Folk"},
     { "venue_id": 2, "genre_name": "Classical"},
-    { "venue_id": 2, "genre_name": "R&B"},
-    { "venue_id": 2, "genre_name": "Hip-Hop"},
-    { "venue_id": 3, "genre_name": "Rock n Roll"},
+    { "venue_id": 2, "genre_name": "R_and_B"},
+    { "venue_id": 2, "genre_name": "Hip_Hop"},
+    { "venue_id": 3, "genre_name": "Rock_n_Roll"},
     { "venue_id": 3, "genre_name": "Jazz"},
     { "venue_id": 3, "genre_name": "Classical"},
     { "venue_id": 3, "genre_name": "Folk"}
