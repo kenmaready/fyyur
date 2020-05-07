@@ -1,9 +1,36 @@
+import re
+
 from datetime import datetime
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
-from wtforms.validators import DataRequired, AnyOf, URL
+from wtforms.validators import DataRequired, AnyOf, Regexp, URL, ValidationError
 
 from models import Genre_Choices
+
+# ------------------------------------------------------------------------------
+# Custom validators
+# ------------------------------------------------------------------------------
+
+class PhoneValidator:
+  """
+  Checks the field's data matches a phone number format (not very robust, this is a prototype)
+  """
+  
+  field_flags = ('required',)
+  
+  def __call__(self, form, field):  
+    phone_regex = "(\(?\d{3}\D{0,3}\d{3}\D{0,3}\d{4}).*?"
+    result = re.match(phone_regex, field.data)
+
+    if not result:
+      message = field.gettext("Please provide a valid phone number.")
+      raise ValidationError(message)
+
+
+
+# ------------------------------------------------------------------------------
+# Forms
+# ------------------------------------------------------------------------------
 
 class ShowForm(FlaskForm):
     artist_id = StringField(
@@ -85,13 +112,13 @@ class VenueForm(FlaskForm):
         'address', validators=[DataRequired()]
     )
     phone = StringField(
-        'phone'
+        'phone', validators=[PhoneValidator()]
     )
     image_link = StringField(
         'image_link'
     )
     genres = SelectMultipleField(
-        # TODO implement enum restriction
+        # COMPLETED: implement enum restriction
         'genres', validators=[DataRequired()],
         choices=[(choice.name, choice.value) for choice in Genre_Choices]
     )
@@ -163,19 +190,19 @@ class ArtistForm(FlaskForm):
         ]
     )
     phone = StringField(
-        # TODO implement validation logic for state
-        'phone'
+        # COMPLETED implement validation logic for state (phone?)
+        'phone', validators=[PhoneValidator()]
     )
     image_link = StringField(
         'image_link'
     )
     genres = SelectMultipleField(
-        # TODO implement enum restriction
+        # COMPLETED implement enum restriction
         'genres', validators=[DataRequired()],
         choices=[(choice.name, choice.value) for choice in Genre_Choices]
     )
     facebook_link = StringField(
-        # TODO implement enum restriction
+        # TODO?? implement enum restriction?? (Probably a mistake) 
         "facebook_link", validators=[URL()]
     )
 

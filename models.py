@@ -62,15 +62,17 @@ class Venue(db.Model):
        return cls.query.filter(cls.name.ilike('%{}%'.format(search_term))).all()
 
     # helper method to get shows for a particular venue
-    def get_shows(self, when='upcoming'):
+    def get_shows(self, when='all'):
       print(self)
       query = db.session.query(Show, Artist).join(Artist, Artist.id == Show.artist_id)
       if when == 'upcoming':
-        shows = query.filter(Show.venue_id == self.id, Show.start_time <= datetime.now()).all()
+        shows = query.filter(Show.venue_id == self.id, Show.start_time > datetime.now()).order_by(Show.start_time).all()
       if when == 'past':
-        shows =query.filter(Show.venue_id == self.id, Show.start_time > datetime.now()).all()
+        shows =query.filter(Show.venue_id == self.id, Show.start_time <= datetime.now()).order_by(Show.start_time).all()
+      if when == 'all':
+        shows = query.filter(Show.venue_id == self.id).order_by(Show.start_time).all()
       
-      shows = Show.unpack_shows(shows) # convert from tuplpe to splatted dicts 
+      shows = Show.unpack_tuples(shows) # convert from tuplpe to splatted dicts 
       shows = Show.datetimes_to_strings(shows) # does what it says on the tin
       return shows
 
@@ -96,26 +98,19 @@ class Artist(db.Model):
        return cls.query.filter(cls.name.ilike('%{}%'.format(search_term))).all()
 
     # helper method to get pasat or upcoming shows for a particular artist
-    def get_shows(self, when='upcoming'):
+    def get_shows(self, when='all'):
       query = db.session.query(Show, Venue).join(Venue, Venue.id == Show.venue_id)
       if when == 'upcoming':
-        shows = query.filter(Show.artist_id == self.id, Show.start_time <= datetime.now()).all()
+        shows = query.filter(Show.artist_id == self.id, Show.start_time > datetime.now()).order_by(Show.start_time).all()
       if when == 'past':
-        shows =query.filter(Show.artist_id == self.id, Show.start_time > datetime.now()).all()
+        shows = query.filter(Show.artist_id == self.id, Show.start_time <= datetime.now()).order_by(Show.start_time).all()
+      if when == 'all':
+        shows = query.filter(Show.artist_id == self.id).order_by(Show.start_time).all()
       
-      shows = Show.unpack_shows(shows) # convert tuples to splatted dicts 
+      shows = Show.unpack_tuples(shows) # convert tuples to splatted dicts 
       shows = Show.datetimes_to_strings(shows) # does what it says on the tin
 
       return shows
-
-    def get_genre_names(self):      
-      return list(map(lambda genre: genre.name, self.genres))
-    
-    def update_genres(self, genre_name_list):
-      for genre in self.genres:
-        if genre.name not in genre_name_list:
-          self.genres.remove(genre)
-          print("removed genre {}...".format(genre))
       
 
 # COMPLETED Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
@@ -129,8 +124,8 @@ class Show(db.Model):
 
     # helper method to unpack tuple search results into splatted dicts with info about a show
     @classmethod
-    def unpack_shows(cls, show_artist_tuples):
-      return list(map(lambda show_artist_tuple: {**vars(show_artist_tuple[0]), **vars(show_artist_tuple[1])}, show_artist_tuples))
+    def unpack_tuples(cls, show_tuples):
+      return [{ **vars(_tuple[0]), **vars(_tuple[1]) } for _tuple in show_tuples]
 
     # helper method to donvert show.start_time from datetime object to tstring
     @classmethod
@@ -139,6 +134,31 @@ class Show(db.Model):
       for show in converted_shows:
         show['start_time'] = show['start_time'].strftime('%Y-%m-%d %H:%M:%S')
       return converted_shows
+
+    @classmethod
+    def get_shows(cls, when='all'):
+      query = cls.query
+      if when == 'upcoming':
+        shows = query.filter(cls.start_time > datetime.now()).order_by(cls.start_time).all()
+      if when == 'past':
+        shows =query.filter(cls.start_time <= datetime.now()).order_by(cls.start_time).all()
+      if when == 'all':
+        shows = query.order_by(cls.start_time).all()
+
+      show_info = []
+      for show in shows:
+        venue = Venue.query.get(show.venue_id)
+        artist = Artist.query.get(show.artist_id)
+        show_info.append({
+                          'venue_id': venue.id, 
+                          'venue_name': venue.name, 
+                          'artist_id': artist.id, 
+                          'artist_name': artist.name, 
+                          'artist_image_link': artist.image_link, 
+                          'start_time': show.start_time.strftime('%Y-%m-%d %H:%M:%S')
+                          })
+        
+      return show_info
 
 class Genre(db.Model):
      __tablename__ = 'Genre'
