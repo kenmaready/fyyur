@@ -43,11 +43,6 @@ def format_datetime(value, format='medium'):
 app.jinja_env.filters['datetime'] = format_datetime
 
 #----------------------------------------------------------------------------#
-# helpers;
-#----------------------------------------------------------------------------#
-
-
-#----------------------------------------------------------------------------#
 # Controllers.
 #----------------------------------------------------------------------------#
 
@@ -185,14 +180,11 @@ def delete_venue(venue_id):
 @app.route('/venues/<int:venue_id>/edit', methods=['GET'])
 def edit_venue(venue_id):
   # COMPLETED: populate form with values from venue with ID <venue_id>
-  print("edit_venue() called with GET")
   venue = Venue.query.get(venue_id)
   if venue:
-    print("venue found...")
     form = VenueForm(obj = venue)
     form.state.default = venue.state
     form.genres.data = [genre.name.value for genre in venue.genres]
-    print("abour to render_template...")
     return render_template('forms/edit_venue.html', form=form, venue=venue)
  
   # if venue isn't found send user to 404

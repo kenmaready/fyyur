@@ -7,6 +7,10 @@ Fyyur is a musical venue and artist booking site that facilitates the discovery 
 
 Your job is to build out the data models to power the API endpoints for the Fyyur site by connecting to a PostgreSQL database for storing, querying, and creating information about artists and venues on Fyyur.
 
+### Note: Populating the Database with Starter/Mock Data
+
+Once the database is set up and fully migrated to current version,  you can run "python ./bin/configure_db.py" in the main fyyur folder in order to populate the database with some initial data to play around with.  This includes the initial bands, venues and shows that were in the mock data provided with the starter file, but as data living in the database.  WARNING: running configure_db.py will erase all existing data in the database.
+
 ### Overview
 
 This app is nearly complete. It is only missing one thing… real data! While the views and controllers are defined in this application, it is missing models and model interactions to be able to store retrieve, and update data from a database. By the end of this project, you should have a fully functioning site that is at least capable of doing the following, if not more, using a PostgreSQL database:

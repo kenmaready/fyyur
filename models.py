@@ -63,7 +63,6 @@ class Venue(db.Model):
 
     # helper method to get shows for a particular venue
     def get_shows(self, when='all'):
-      print(self)
       query = db.session.query(Show, Artist).join(Artist, Artist.id == Show.artist_id)
       if when == 'upcoming':
         shows = query.filter(Show.venue_id == self.id, Show.start_time > datetime.now()).order_by(Show.start_time).all()

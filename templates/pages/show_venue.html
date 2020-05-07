@@ -82,7 +82,6 @@
 
 <script>
   document.getElementById('venue-edit-btn').onclick = (e) => {
-    console.log('click detected')
     const venueId = e.target.dataset.id;
     fetch(`/venues/${venueId}/edit`, {
       method: 'GET'
@@ -96,10 +95,7 @@
         })
         .then(response => response.json())
         .then(json => {
-          if (!json.success) {
-            console.log('no success')
-          } else {
-            console.log('success');
+          if (json.success) {
             window.location.href = '/venues'
           }
         })
