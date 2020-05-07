@@ -43,7 +43,8 @@
     {% endif %}
     <div>
       <hr />
-      <button id="venue-delete-btn" class="btn btn-danger" data-id="{{ venue.id }}">Delete venue</button>
+      <a id="venue-edit-btn" href="/venues/{{ venue.id }}/edit" class="btn btn-primary" role="button">Edit Venue</a>
+      <button id="venue-delete-btn" class="btn btn-danger" data-id="{{ venue.id }}">Delete Venue</button>
     </div>
 	</div>
 	<div class="col-sm-6">
@@ -80,6 +81,14 @@
 </section>
 
 <script>
+  document.getElementById('venue-edit-btn').onclick = (e) => {
+    console.log('click detected')
+    const venueId = e.target.dataset.id;
+    fetch(`/venues/${venueId}/edit`, {
+      method: 'GET'
+    });
+  };
+  
   document.getElementById('venue-delete-btn').onclick = (e) => {
         const venueId = e.target.dataset.id;
         fetch(`/venues/${venueId}`, {
@@ -97,7 +106,7 @@
         .catch(error => {
             console.error(error);
         });
-};
+  };
 </script>
 
 {% endblock %}

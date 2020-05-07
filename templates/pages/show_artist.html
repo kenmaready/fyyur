@@ -37,7 +37,11 @@
 		<p class="not-seeking">
 			<i class="fas fa-moon"></i> Not currently seeking performance venues
 		</p>
-		{% endif %}
+    {% endif %}
+    <div>
+      <hr/>
+      <a id="artist-edit-btn" href="/artists/{{ artist.id }}/edit" class="btn btn-primary" role="button">Edit Artist</a>
+    </div>
 	</div>
 	<div class="col-sm-6">
 		<img src="{{ artist.image_link }}" onerror="this.onerror=null; this.src='../../static/img/default-band-image.jpg'" alt="Artist Image" />

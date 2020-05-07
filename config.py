@@ -8,7 +8,7 @@ DEBUG = True
 
 # Connect to the database
 
-# TODO IMPLEMENT DATABASE URL
+# COMPLETED: IMPLEMENT DATABASE URL
 dialect = "postgres"
 username = 'udacity'
 password = 'udacity'
