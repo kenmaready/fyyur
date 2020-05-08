@@ -129,8 +129,9 @@ def create_venue_submission():
       venue_params['address'] = request.form.get('address', '')
       venue_params['state'] = request.form.get('state', '')
       venue_params['phone'] = request.form.get('phone', '')
-      venue_params['image_link'] = ''
+      venue_params['website'] = request.form.get('website', '')
       venue_params['facebook_link'] = request.form.get('facebook_link', '')
+      venue_params['image_link'] = request.form.get('image_link', '')
       venue_params['genres'] = [Genre.query.get(genre) for genre in request.form.getlist('genres')]
 
       venue = Venue(**venue_params)
@@ -207,8 +208,9 @@ def edit_venue_submission(venue_id):
       venue.address = request.form.get('address', '')
       venue.state = request.form.get('state', '')
       venue.phone = request.form.get('phone', '')
-      venue.image_link = ''
+      venue.website = request.form.get('website', '')
       venue.facebook_link = request.form.get('facebook_link', '')
+      venue.image_link = request.form.get('image_link', '')
       venue.genres = [Genre.query.get(genre) for genre in request.form.getlist('genres')]
 
       try:
@@ -309,8 +311,9 @@ def edit_artist_submission(artist_id):
       artist.address = request.form.get('address', '')
       artist.state = request.form.get('state', '')
       artist.phone = request.form.get('phone', '')
-      artist.image_link = ''
+      artist.website = request.form.get('website', '')
       artist.facebook_link = request.form.get('facebook_link', '')
+      artist.image_link = request.form.get('image_link', '')
       artist.genres = [Genre.query.get(genre) for genre in request.form.getlist('genres')]
 
       try:
@@ -351,8 +354,9 @@ def create_artist_submission():
       artist_params['city'] = request.form.get('city', '')
       artist_params['state'] = request.form.get('state', '')
       artist_params['phone'] = request.form.get('phone', '')
-      artist_params['image_link'] = ''
+      artist_params['website'] = request.form.get('website', '')
       artist_params['facebook_link'] = request.form.get('facebook_link', '')
+      artist_params['image_link'] = request.form.get('image_link', '')
       artist_params['genres'] = [Genre.query.get(genre) for genre in request.form.getlist('genres')]
 
       artist = Artist(**artist_params)

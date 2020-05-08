@@ -43,9 +43,17 @@
         {{ form.genres(class_ = 'form-control', default=artist.genres, id=form.genre, autofocus = true) }}
       </div>
       <div class="form-group">
+        <label for="website">Website</label>
+        {{ form.website(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+      </div>
+      <div class="form-group">
           <label for="genres">Facebook Link</label>
           {{ form.facebook_link(class_ = 'form-control', placeholder=artist.facebook_link, autofocus = true) }}
-        </div>
+      </div>
+      <div class="form-group">
+        <label for="image_link">Link to Artist Image</label>
+        {{ form.image_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+      </div>
       <input type="submit" value="Edit Artist" class="btn btn-primary btn-lg btn-block">
     </form>
   </div>

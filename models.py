@@ -5,7 +5,12 @@ from flask_sqlalchemy import SQLAlchemy
 
 from app_config import db
 
+#------------------------------------------------------------------------------------------
 # Models
+#-------------------------------------------------------------------------------------------
+
+
+# Enum definition for use in Genre table
 class Genre_Choices(Enum):
     Alternative = 'Alternative'
     Blues = 'Blues'
@@ -38,10 +43,11 @@ Venue_Genres = db.Table('Venue_Genres',
     db.Column('genre_name', db.Enum(Genre_Choices), db.ForeignKey('Genre.name'), primary_key=True)
 )
 
-
+# Models
 class Venue(db.Model):
     __tablename__ = 'Venue'
 
+    # note: elected not to put uniqueness constraints on name as there may be multiple venues with same name in different locations
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     city = db.Column(db.String(120))
@@ -49,9 +55,9 @@ class Venue(db.Model):
     address = db.Column(db.String(120))
     phone = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
-    facebook_link = db.Column(db.String(120))
+    facebook_link = db.Column(db.String(120), unique=True)
     # COMPLETED: implement any missing fields, as a database migration using Flask-Migrate
-    website = db.Column(db.String(120))
+    website = db.Column(db.String(120), unique=True)
     seeking_talent = db.Column(db.Boolean, default=False)
     seeking_description = db.Column(db.String(500))
     shows = db.relationship('Show', backref='venue', lazy=True)
@@ -71,22 +77,23 @@ class Venue(db.Model):
       if when == 'all':
         shows = query.filter(Show.venue_id == self.id).order_by(Show.start_time).all()
       
-      shows = Show.unpack_tuples(shows) # convert from tuplpe to splatted dicts 
+      shows = Show.unpack_tuples(shows) # convert from tuple to splatted dicts 
       shows = Show.datetimes_to_strings(shows) # does what it says on the tin
       return shows
 
 class Artist(db.Model):
     __tablename__ = 'Artist'
 
+    # note: elected not to put uniqueness constraints on name as there can be multiple bands with same name in different locations
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
     phone = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
-    facebook_link = db.Column(db.String(120))
+    facebook_link = db.Column(db.String(120), unique=True)
     # COMPLETED: implement any missing fields, as a database migration using Flask-Migrate
-    website = db.Column(db.String(120))
+    website = db.Column(db.String(120), unique=True)
     seeking_venue = db.Column(db.Boolean, default=False)
     seeking_description = db.Column(db.String(500))
     shows = db.relationship("Show", backref='artist', lazy=True)
@@ -96,7 +103,7 @@ class Artist(db.Model):
     def search(cls, search_term):
        return cls.query.filter(cls.name.ilike('%{}%'.format(search_term))).all()
 
-    # helper method to get pasat or upcoming shows for a particular artist
+    # helper method to get past or upcoming shows for a particular artist
     def get_shows(self, when='all'):
       query = db.session.query(Show, Venue).join(Venue, Venue.id == Show.venue_id)
       if when == 'upcoming':
